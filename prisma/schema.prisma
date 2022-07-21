@@ -21,12 +21,12 @@ model User {
   firstName String?
   lastName String?
 
-  bookmarks Bookmark[]
+  boardgames Boardgame[]
 
   @@map("users")
 }
 
-model Bookmark {
+model Boardgame {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -38,5 +38,5 @@ model Bookmark {
   userId Int
   user User @relation(fields: [userId], references: [id])
 
-  @@map("bookmarks")
+  @@map("boardgames")
 }
