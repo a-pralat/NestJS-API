@@ -10,5 +10,6 @@ export class CreateBoardgameDto {
     description?: string
 
     @IsString()
+    @IsNotEmpty()
     link: string
 }

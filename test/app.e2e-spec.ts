@@ -5,7 +5,7 @@ import { PrismaService } from '../src/prisma/prisma.service';
 import * as pactum from 'pactum';
 import { AuthDto } from '../src/auth/dto';
 import { EditUserDto } from '../src/user/dto';
-import { CreateBoardgameDto } from '../src/boardgame/dto';
+import { CreateBoardgameDto, EditBoardgameDto } from '../src/boardgame/dto';
 
 describe('App e2e', () => {
   let app: INestApplication;
@@ -155,12 +155,12 @@ describe('App e2e', () => {
       });
     });
 
-    describe('Create boardgames', () => {
+    describe('Create boardgame', () => {
+      const dto: CreateBoardgameDto = {
+        title: 'Everdell',
+        link: 'https://www.rebel.pl/gry-planszowe/everdell-edycja-polska-109580.html',
+      };
       it('should create boardgame', () => {
-        const dto: CreateBoardgameDto = {
-          title: 'Everdell',
-          link: 'https://www.rebel.pl/gry-planszowe/everdell-edycja-polska-109580.html',
-        };
         return pactum
           .spec()
           .post(defaultBoardgamesPath)
@@ -169,7 +169,8 @@ describe('App e2e', () => {
           })
           .withBody(dto)
           .expectStatus(HttpStatus.CREATED) // 201
-          .stores('boardgameId', 'id');
+          .stores('boardgameId', 'id')
+          .inspect();
       });
     });
 
@@ -186,22 +187,64 @@ describe('App e2e', () => {
       });
     });
 
-    // describe('Get boardgame by id', () => {
-    //   it('should get boardgame by id', () => {
-    //     return pactum
-    //       .spec()
-    //       .get('/boardgames/{id}')
-    //       .withPathParams('id', '$S{boardgameId}')
-    //       .withHeaders({
-    //         Authorization: 'Bearer $S{userAt}',
-    //       })
-    //       .expectStatus(HttpStatus.OK) // 200
-    //       .expectBodyContains('$S{boardgameId}');
-    //   });
-    // });
+    describe('Get boardgame by id', () => {
+      it('should get boardgame by id', () => {
+        return pactum
+          .spec()
+          .get(defaultBoardgamesPath + '/{id}')
+          .withPathParams('id', '$S{boardgameId}')
+          .withHeaders({
+            Authorization: 'Bearer $S{userAt}',
+          })
+          .expectStatus(HttpStatus.OK) // 200
+          .expectBodyContains('$S{boardgameId}');
+      });
+    });
 
-    describe('Edit boardgame by id', () => {});
+    describe('Edit boardgame by id', () => {
+      const dto: EditBoardgameDto = {
+        title: 'Here to Slay',
+        description:
+          'Here to Slay is a competitive role-playing fantasy strategy card game ' +
+          "that's all about assembling a party of Heroes and slaying monsters",
+      };
+      it('should edit boardgame by id', () => {
+        return pactum
+          .spec()
+          .patch(defaultBoardgamesPath + '/{id}')
+          .withPathParams('id', '$S{boardgameId}')
+          .withHeaders({
+            Authorization: 'Bearer $S{userAt}',
+          })
+          .withBody(dto)
+          .expectStatus(HttpStatus.OK) // 200
+          .expectBodyContains(dto.title)
+          .expectBodyContains(dto.description);
+      });
+    });
 
-    describe('Delete boardgame by id', () => {});
+    describe('Delete boardgame by id', () => {
+      it('should delete boardgame by id', () => {
+        return pactum
+          .spec()
+          .delete(defaultBoardgamesPath + '/{id}')
+          .withPathParams('id', '$S{boardgameId}')
+          .withHeaders({
+            Authorization: 'Bearer $S{userAt}',
+          })
+          .expectStatus(HttpStatus.NO_CONTENT); // 204
+      });
+
+      it('should get empty boardgames', () => {
+        return pactum
+          .spec()
+          .get(defaultBoardgamesPath)
+          .withHeaders({
+            Authorization: 'Bearer $S{userAt}',
+          })
+          .expectStatus(HttpStatus.OK) // 200
+          .expectJsonLength(0);
+      });
+    });
   });
 });
