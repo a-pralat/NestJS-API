@@ -1,7 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { AppModule } from '../src/app.module';
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
-import { PrismaService } from '../src/prisma/prisma.service';
 import * as pactum from 'pactum';
 import { AuthDto } from '../src/auth/dto';
 import { EditUserDto } from '../src/user/dto';
@@ -11,7 +10,7 @@ import { cleanDb } from './db-helper';
 
 describe('App e2e', () => {
   let app: INestApplication;
-  let prisma: PrismaService;
+  let prisma: PrismaClient;
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule],

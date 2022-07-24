@@ -11,7 +11,7 @@ import { PrismaClient } from '@prisma/client';
 @Injectable()
 export class AuthService {
   constructor(
-    private prisma: PrismaService,
+    private prisma: PrismaClient,
     private jwt: JwtService,
     private config: ConfigService,
   ) {}
