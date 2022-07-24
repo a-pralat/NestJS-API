@@ -6,6 +6,8 @@ import * as pactum from 'pactum';
 import { AuthDto } from '../src/auth/dto';
 import { EditUserDto } from '../src/user/dto';
 import { CreateBoardgameDto, EditBoardgameDto } from '../src/boardgame/dto';
+import { PrismaClient } from '@prisma/client';
+import { cleanDb } from './db-helper';
 
 describe('App e2e', () => {
   let app: INestApplication;
@@ -24,10 +26,15 @@ describe('App e2e', () => {
     await app.init();
     await app.listen(3333);
 
-    prisma = app.get(PrismaService);
-    await prisma.cleanDb();
+    prisma = app.get(PrismaClient)
+    await cleanDb(prisma)
+
     pactum.request.setBaseUrl('http://localhost:3333');
   });
+
+  // beforeEach(async ()=>{
+  //   await cleanDb(prisma)
+  // })
 
   afterAll(() => {
     app.close();
@@ -93,6 +100,12 @@ describe('App e2e', () => {
           .expectStatus(HttpStatus.BAD_REQUEST); // 400
       });
       it('should sign in', () => {
+
+        // Given
+        
+        // When
+
+        // Then
         return pactum
           .spec()
           .post(signInPath)

@@ -1,10 +1,10 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateBoardgameDto, EditBoardgameDto } from './dto';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class BoardgameService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaClient) {}
 
   getBoardgames(userId: number) {
     return this.prisma.boardgame.findMany({
@@ -23,15 +23,13 @@ export class BoardgameService {
     });
   }
 
-  async createBoardgame(userId: number, dto: CreateBoardgameDto) {
-    const boardgame = await this.prisma.boardgame.create({
+  createBoardgame(userId: number, dto: CreateBoardgameDto) {
+    return this.prisma.boardgame.create({
       data: {
         userId,
         ...dto,
       },
     });
-
-    return boardgame;
   }
 
   async editBoardgameById(
