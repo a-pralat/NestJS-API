@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  labels:
+    app: boardgames
+    role: database
+spec:
+  selector:
+    matchLabels:
+      app: boardgames
+      role: database
+  serviceName: postgres
+  template:
+    metadata:
+      labels:
+        app: boardgames
+        role: database
+    spec:
+      containers:
+        - name: postgres
+          image: postgres
+          envFrom:
+            - configMapRef:
+                name: postgres
+
+
+

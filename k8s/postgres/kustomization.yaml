@@ -1,0 +1,10 @@
+resources:
+  - application.yaml
+  - service.yaml
+
+configMapGenerator:
+  - name: postgres
+    options:
+      disableNameSuffixHash: true
+    envs:
+      - .env

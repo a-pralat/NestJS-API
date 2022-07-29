@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  labels:
+    app: boardgames
+    role: api
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: api
+      labels:
+        app: boardgames
+        role: api
+    spec:
+      containers:
+        - name: api
+          image: boardgames-api:latest
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: bg-api
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: boardgames
+      role: api

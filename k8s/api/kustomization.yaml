@@ -1,0 +1,10 @@
+resources:
+  - application.yaml
+  - service.yaml
+
+configMapGenerator:
+  - name: bg-api
+    options:
+      disableNameSuffixHash: true
+    envs:
+      - .env
