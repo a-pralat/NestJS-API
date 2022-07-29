@@ -1,11 +1,11 @@
-import {  Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthDto } from './dto';
 import * as argon from 'argon2';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import {PrismaErrors} from "../prisma/prisma.errors";
-import {DuplicateUserError} from "../prisma/domain/errors/duplicate-user.error";
+import { PrismaErrors } from '../prisma/prisma.errors';
+import { DuplicateUserError } from '../prisma/domain/errors/duplicate-user.error';
 import { PrismaClient } from '@prisma/client';
 
 @Injectable()

@@ -1,3 +1,3 @@
-export enum PrismaErrors{
-    Duplicate = 'P2002'
+export enum PrismaErrors {
+  Duplicate = 'P2002',
 }

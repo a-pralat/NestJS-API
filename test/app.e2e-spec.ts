@@ -25,15 +25,15 @@ describe('App e2e', () => {
     await app.init();
     await app.listen(3333);
 
-    prisma = app.get(PrismaClient)
-    await cleanDb(prisma)
+    prisma = app.get(PrismaClient);
+    await cleanDb(prisma);
 
     pactum.request.setBaseUrl('http://localhost:3333');
   });
 
-  // beforeEach(async ()=>{
-  //   await cleanDb(prisma)
-  // })
+  // beforeEach(async () => {
+  //   await cleanDb(prisma);
+  // });
 
   afterAll(() => {
     app.close();
@@ -99,12 +99,6 @@ describe('App e2e', () => {
           .expectStatus(HttpStatus.BAD_REQUEST); // 400
       });
       it('should sign in', () => {
-
-        // Given
-        
-        // When
-
-        // Then
         return pactum
           .spec()
           .post(signInPath)

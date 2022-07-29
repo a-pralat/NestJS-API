@@ -2,10 +2,9 @@ import { Body, Controller, Get, Patch, UseGuards } from '@nestjs/common';
 import { JwtGuard } from '../auth/guard';
 import { GetUser } from '../auth/decorator';
 import { User } from '@prisma/client';
-import { EditUserDto } from './dto';
+import { EditUserDto, UserResponseDto } from './dto';
 import { UserService } from './user.service';
 import { plainToInstance } from 'class-transformer';
-import { UserResponseDto } from './dto/user.response.dto';
 
 @UseGuards(JwtGuard)
 @Controller('users')

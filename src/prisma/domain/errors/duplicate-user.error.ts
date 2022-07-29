@@ -1,1 +1,1 @@
-export class DuplicateUserError extends Error{}
+export class DuplicateUserError extends Error {}

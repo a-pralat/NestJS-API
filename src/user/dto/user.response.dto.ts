@@ -2,16 +2,15 @@ import { Exclude, Expose } from 'class-transformer';
 
 @Exclude()
 export class UserResponseDto {
+  @Expose()
+  id: string;
 
   @Expose()
-  id:string;
-
-  @Expose()
-  email:string;
+  email: string;
 
   @Expose()
   firstName: string;
 
   @Expose()
-  lastName:string;
+  lastName: string;
 }

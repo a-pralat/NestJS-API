@@ -1,7 +1,15 @@
-import {BadRequestException, Body, Controller, HttpCode, HttpStatus, Logger, Post} from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Logger,
+  Post,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto';
-import {DuplicateUserError} from "../prisma/domain/errors/duplicate-user.error";
+import { DuplicateUserError } from '../prisma/domain/errors/duplicate-user.error';
 
 @Controller('auth')
 export class AuthController {
@@ -16,7 +24,7 @@ export class AuthController {
         case e instanceof DuplicateUserError:
           throw new BadRequestException('Email already taken');
       }
-      Logger.error(e)
+      Logger.error(e);
       throw e;
     }
   }
@@ -24,7 +32,6 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('signin')
   signIn(@Body() dto: AuthDto) {
-    // pipe is a function that transforms data before dto validation!
     return this.authService.signIn(dto);
   }
 }
